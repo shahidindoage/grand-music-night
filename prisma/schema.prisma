@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Event {
+  id        Int      @id @default(autoincrement())
+  slug      String   @unique
+  title     String
+  createdAt DateTime @default(now())
+  tables    Table[]
+}
+
+model Table {
+  id        Int      @id @default(autoincrement())
+  eventId   Int
+  number    Int
+  color     String?
+  price     Float
+  top       String
+  left      String
+  seats     Seat[]
+  event     Event    @relation(fields: [eventId], references: [id])
+
+  @@unique([eventId, number])
+}
+
+model Seat {
+  id        Int      @id @default(autoincrement())
+  tableId   Int
+  seatNo    Int
+  label     String?
+  status    SeatStatus @default(AVAILABLE)
+  bookedBy  Int?
+  bookedAt  DateTime?
+  table     Table    @relation(fields: [tableId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([tableId, seatNo])
+}
+
+enum SeatStatus {
+  AVAILABLE
+  BOOKED
+  BLOCKED
+}
+
+model Admin {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  password  String   // hashed
+  createdAt DateTime @default(now())
+}
+
