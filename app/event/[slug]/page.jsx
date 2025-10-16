@@ -283,7 +283,7 @@ export default function EventPage({ params }) {
             maxWidth: 750,
             aspectRatio: '1/1',
             position: 'relative',
-            backgroundImage: `url('/bg-3.PNG')`,
+            backgroundImage: `url('	https://grand-music-night-2025.netlify.app/bg-3.PNG')`,
             backgroundSize: 'contain',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center',
