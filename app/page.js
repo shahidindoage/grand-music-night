@@ -56,7 +56,7 @@ export default function Home() {
         }}
       >
         <Link
-          href="/event/map"
+          href="/event/grand-music-night-2025"
           style={{
             display: 'inline-block',
             width: '100%',
