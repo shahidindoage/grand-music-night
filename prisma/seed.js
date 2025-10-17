@@ -50,6 +50,9 @@ async function main() {
 303: { seats: 6, top: '61.8%', left: '31.4%', price: 7.800, color: '#4a88c7' },
 304: { seats: 6, top: '57.8%', left: '26.4%', price: 7.800, color: '#4a88c7' },
 
+801: { seats: 6, top: '44.8%', left: '75.4%', price: 7.800, color: '#4a88c7' },
+802: { seats: 6, top: '36.8%', left: '75.4%', price: 7.800, color: '#4a88c7' },
+
 //DIAMOND GREEN
 1: { seats: 10, top: '48.9%', left: '50.9%', price: 15.800, color: '#61b32e' },
 

@@ -57,8 +57,8 @@ export default function EventPage({ params }) {
       705: { top: '49.6%', left: '71.3%' },
       706: { top: '43.9%', left: '70.9%' },
       704: { top: '30.9%', left: '66.2%' },
-      803: { top: '42.9%', left: '79.3%' },
-      804: { top: '36.9%', left: '79.3%' },
+      803: { top: '42.9%', left: '79.6%' },
+      804: { top: '36.9%', left: '79.6%' },
       805: { top: '44.5%', left: '84.7%' },
       806: { top: '38.8%', left: '84.4%' },
 
@@ -66,7 +66,7 @@ export default function EventPage({ params }) {
 
  306: {  top: '64.5%', left: '23.7%'},
 305: {  top: '66.8%', left: '28.4%'},
-807: {  top: '33.8%', left: '83.4%'},
+807: {  top: '33.8%', left: '83.7%'},
 
 501: { top: '71.5%', left: '57.7%'},
 502: { top: '71.5%', left: '51.4%'},
@@ -80,6 +80,9 @@ export default function EventPage({ params }) {
 302: { top: '53.8%', left: '29.4%'},
 303: { top: '61.8%', left: '31.4%'},
 304: { top: '57.8%', left: '26.4%'},
+
+801: {  top: '44.8%', left: '75.4%'},
+802: {  top: '36.8%', left: '75.4%'},
 
 
 //DIAMOND GREEN
@@ -162,16 +165,25 @@ export default function EventPage({ params }) {
       })
 
       const tableDiv = document.createElement('div')
-      tableDiv.classList.add('table')
-      Object.assign(tableDiv.style, {
-        width: '24px',
-        height: '24px',
-        borderRadius: '50%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        background: table.color
-      })
+tableDiv.classList.add('table')
+
+// 🟨 Make 801 & 802 square, all others circular
+const isSquareTable = ['801', '802'].includes(String(tableNum))
+
+Object.assign(tableDiv.style, {
+  width: isSquareTable ? (isMobile ? '6px' : '12px') : (isMobile ? '10.5px' : '24px'),
+  height: isSquareTable ? (isMobile ? '19px' : '42px') : (isMobile ? '10.5px' : '24px'),
+  borderRadius: isSquareTable ? '0px' : '50%',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  background: table.color,
+  boxShadow: isSquareTable
+    ? '0 0 8px rgba(255,255,255,0.3)'  // slightly smaller glow on mobile
+    : '0 0 4px rgba(255,255,255,0.2)'
+})
+
+
 
       const seatCountDiv = document.createElement('div')
       seatCountDiv.classList.add('seat-count')
@@ -184,7 +196,7 @@ export default function EventPage({ params }) {
         alignItems: 'center',
         borderRadius: '50%'
       })
-      seatCountDiv.innerHTML = `<span style="color:${table.color}; font-size:6px;">${table.seats}</span>`
+      seatCountDiv.innerHTML = `<span style="color:${table.color}; font-size:7px;">${table.seats}</span>`
       tableDiv.appendChild(seatCountDiv)
       center.appendChild(tableDiv)
 
@@ -200,19 +212,56 @@ export default function EventPage({ params }) {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          fontSize: '3px',
+          fontSize: '4px',
           fontWeight: 'bold',
           cursor: 'pointer',
           transition: 'background 0.2s ease, color 0.2s ease'
         })
         seat.textContent = i
 
-        const angle = (i - 1) * (360 / table.seats)
-        const x = radius * Math.cos((angle - 90) * Math.PI / 180)
-        const y = radius * Math.sin((angle - 90) * Math.PI / 180)
-        seat.style.left = `calc(50% + ${x}px)`
-        seat.style.top = `calc(50% + ${y}px)`
-        seat.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`
+        // 🟩 Manual seat arrangement for 801 and 802
+const rightOffset = isMobile ? '104%' : '98%';
+const topOffsetStep = isMobile ? 3.8 : 9;
+const topOffsetBottom = isMobile ? '101%' : '103%';
+const topOffsetTop = isMobile ? '-13%' : '-13%';
+
+if (tableNum === '801') {
+  // 5 on right, 1 on bottom
+  if (i <= 5) {
+    seat.style.left = rightOffset;
+    seat.style.top = `${1 + (i - 1) * topOffsetStep}px`;
+    seat.style.transform = 'rotate(90deg)';
+  } else {
+    seat.style.left = '50%';
+    seat.style.top = topOffsetBottom;
+    seat.style.transform = 'translateX(-50%) rotate(180deg)';
+  }
+} 
+else if (tableNum === '802') {
+  // Seat 1 on top, seats 2–6 on right
+  if (i === 1) {
+    // top seat
+    seat.style.left = '50%';
+    seat.style.top = topOffsetTop;
+    seat.style.transform = 'translateX(-50%) rotate(0deg)';
+  } else {
+    // right-side seats (2–6)
+    seat.style.left = rightOffset;
+    seat.style.top = `${1 + (i - 2) * topOffsetStep}px`;
+    seat.style.transform = 'rotate(90deg)';
+  }
+}
+
+ 
+else {
+  // ✅ Default circular arrangement for all others
+  const angle = (i - 1) * (360 / table.seats)
+  const x = radius * Math.cos((angle - 90) * Math.PI / 180)
+  const y = radius * Math.sin((angle - 90) * Math.PI / 180)
+  seat.style.left = `calc(50% + ${x}px)`
+  seat.style.top = `calc(50% + ${y}px)`
+  seat.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`
+}
 
         const meta = table.seatDetails[i]
         const isBooked = meta?.status === 'BOOKED'
@@ -274,26 +323,78 @@ export default function EventPage({ params }) {
 
   return (
     <div style={{ height: '100vh', background: '#000', color: '#fff', position: 'relative', overflow: 'hidden' }}>
+      
+        {/* <span className='table-no' style={{top:'12%',left:'36%', transform: 'translate(-50%, -50%)'}}>211</span>
+        <span className='table-no' style={{top:'19%',left:'36%',}}>210</span>
+       */}
+      
       {/* ✅ Map background */}
       <div style={{ position: 'absolute', inset: 0, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <div
-          className="layout"
-          style={{
-            width: '90vw',
-            maxWidth: 750,
-            aspectRatio: '1/1',
-            position: 'relative',
-            backgroundImage: `url('	https://grand-music-night-2025.netlify.app/bg-3.PNG')`,
-            backgroundSize: 'contain',
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center',
-            transform: `scale(${zoom})`,
-            transformOrigin: 'center center',
-            transition: 'transform 0.3s ease'
-          }}
-        >
-          <div ref={layoutRef} style={{ position: 'absolute', inset: 0 }} />
-        </div>
+  className="layout"
+  style={{
+    width: '90vw',
+    maxWidth: 1000,
+    aspectRatio: '1/1',
+    position: 'relative',
+    backgroundImage: `url('https://grand-music-night-2025.netlify.app/bg-3.PNG')`,
+    backgroundSize: 'contain',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+    transform: `scale(${zoom})`,
+    transformOrigin: 'center center',
+    transition: 'transform 0.3s ease'
+  }}
+>
+  <span className='stage'>Stage</span>
+  <div ref={layoutRef} style={{ position: 'absolute', inset: 0 }} />
+
+  {/* Table numbers */}
+  {Object.entries(tablesMap).map(([tableNum, table]) => {
+  const pos = getPositionForTable(Number(tableNum)) || {}
+
+  // Default transform for all tables
+  // let translateY = '130%'
+  let translateY = isMobile ? '205%' : '130%'
+let translateX = '-50%'
+  // Special adjustment for table 802
+  if (tableNum === '801' || tableNum === '802'  ) 
+    {
+      translateX = '-20%'
+      
+      translateY = isMobile ? '275%' : '180%'
+
+    } 
+
+    if(tableNum === '701'){
+translateX = '-20%'
+    }
+
+    if(tableNum === '104'){
+translateX = '-60%'
+    }
+
+  return (
+    <span
+      key={tableNum}
+      className="table-no"
+      style={{
+        position: 'absolute',
+        top: pos.top,
+        left: pos.left,
+        color: '#fff',
+        fontWeight: 600,
+        fontSize: '10px',
+        transform: `translate(${translateX}, ${translateY})`
+      }}
+    >
+      {tableNum}
+    </span>
+  )
+})}
+
+</div>
+
       </div>
 
       {/* ✅ Tooltip */}
