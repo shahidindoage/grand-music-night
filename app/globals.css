@@ -57,6 +57,10 @@ body {
   font-size: 6px !important;
   right: 5% !important;
  }
+ .zoom-contronls{
+  bottom: 10% !important;
+ }
+ 
  }
 
  .table-no{
