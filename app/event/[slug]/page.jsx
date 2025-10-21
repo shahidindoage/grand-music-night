@@ -430,6 +430,7 @@ useEffect(() => {
   }}
 >
   <span className='stage'>Stage</span>
+  <span className='stage1'>Note:&nbsp;&nbsp;Please use the zoom buttons for better visualization.</span>
   <div ref={layoutRef} style={{ position: 'absolute', inset: 0 }} />
 
   {/* Table numbers */}
@@ -594,7 +595,7 @@ translateX = '-60%'
         >
           −
         </button>
-        <span style={{ color: '#fff', fontSize: '14px' }}>Zoom</span>
+        <span style={{ color: '#fff', fontSize: '20px' }} className='zoom-text'>Zoom</span>
         <button
           onClick={() => setZoom(z => Math.min(maxZoom, +(z + 0.1).toFixed(2)))}
           style={{

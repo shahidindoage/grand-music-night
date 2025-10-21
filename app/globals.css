@@ -53,6 +53,10 @@ body {
  .stage{
   font-size: 6px !important;
  }
+  .stage1{
+  font-size: 6px !important;
+  right: 5% !important;
+ }
  }
 
  .table-no{
@@ -70,4 +74,19 @@ body {
     position: absolute;
     top: 27.5%;
     left: 48.5%;
+ }
+
+  .stage1{
+  color: #ccc2b8;
+    z-index: 1;
+    font-family: MyCustomFont;
+    font-size: 15px;
+    position: absolute;
+    bottom: 18% !important;
+    right: -2.5%;
+ }
+
+ .zoom-text{
+  font-family: MyCustomFont;
+
  }
