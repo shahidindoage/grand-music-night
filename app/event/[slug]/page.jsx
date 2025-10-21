@@ -444,7 +444,7 @@ translateX = '-60%'
   </button>
 ) : (
   <a
-    href={`https://wa.me/1234567890?text=Hello! I'm interested in booking Seat ${tooltip.seat.tableNumber}-${tooltip.seat.seatNo} (Price: ${Number(tooltip.seat.price).toFixed(3)} AED).`}
+    href={`https://wa.me/971521000083?text=Hello! I'm interested in booking Seat ${tooltip.seat.tableNumber}-${tooltip.seat.seatNo} (Price: ${Number(tooltip.seat.price).toFixed(3)} AED).`}
     target="_blank"
     rel="noopener noreferrer"
     style={{
