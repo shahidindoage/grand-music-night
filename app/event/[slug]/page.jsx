@@ -10,6 +10,11 @@ export default function EventPage({ params }) {
   const [tooltipVisible, setTooltipVisible] = useState(false)
   const [zoom, setZoom] = useState(1)
   const layoutRef = useRef(null)
+  const [pan, setPan] = useState({ x: 0, y: 0 });
+const panRef = useRef({ x: 0, y: 0, isDragging: false, startX: 0, startY: 0 });
+
+  const maxZoom = isMobile ? 4 : 2; // allow more zoom on mobile
+const minZoom = 0.5;
 
   // ✅ Detect device width dynamically
   useEffect(() => {
@@ -321,6 +326,84 @@ else {
     return () => document.removeEventListener('click', handler)
   }, [])
 
+  useEffect(() => {
+  const preventZoom = (e) => {
+    if (e.ctrlKey) e.preventDefault();
+  };
+  window.addEventListener("wheel", preventZoom, { passive: false });
+
+  return () => window.removeEventListener("wheel", preventZoom);
+}, []);
+
+useEffect(() => {
+  const layout = layoutRef.current?.parentElement; // the div with background
+  if (!layout) return;
+
+  const onMouseDown = (e) => {
+    e.preventDefault();
+    panRef.current.isDragging = true;
+    panRef.current.startX = e.clientX - panRef.current.x;
+    panRef.current.startY = e.clientY - panRef.current.y;
+
+     setTooltip({ visible: false, x: 0, y: 0, seat: null }) // hide tooltip
+     setSelectedSeat(null)
+  }
+
+  const onMouseMove = (e) => {
+    if (!panRef.current.isDragging) return;
+    let newX = e.clientX - panRef.current.startX;
+    let newY = e.clientY - panRef.current.startY;
+    setPan({ x: newX, y: newY });
+  }
+
+  const onMouseUp = () => {
+    panRef.current.isDragging = false;
+    panRef.current.x = pan.x;
+    panRef.current.y = pan.y;
+  }
+
+  layout.addEventListener('mousedown', onMouseDown);
+  window.addEventListener('mousemove', onMouseMove);
+  window.addEventListener('mouseup', onMouseUp);
+
+  // mobile touch support
+  const onTouchStart = (e) => {
+    panRef.current.isDragging = true;
+    panRef.current.startX = e.touches[0].clientX - panRef.current.x;
+    panRef.current.startY = e.touches[0].clientY - panRef.current.y;
+
+     setTooltip({ visible: false, x: 0, y: 0, seat: null }) // hide tooltip
+     setSelectedSeat(null)
+  }
+  const onTouchMove = (e) => {
+    if (!panRef.current.isDragging) return;
+    let newX = e.touches[0].clientX - panRef.current.startX;
+    let newY = e.touches[0].clientY - panRef.current.startY;
+    setPan({ x: newX, y: newY });
+    
+  }
+  const onTouchEnd = () => {
+    panRef.current.isDragging = false;
+    panRef.current.x = pan.x;
+    panRef.current.y = pan.y;
+  }
+
+  layout.addEventListener('touchstart', onTouchStart);
+  layout.addEventListener('touchmove', onTouchMove);
+  layout.addEventListener('touchend', onTouchEnd);
+
+  return () => {
+    layout.removeEventListener('mousedown', onMouseDown);
+    window.removeEventListener('mousemove', onMouseMove);
+    window.removeEventListener('mouseup', onMouseUp);
+
+    layout.removeEventListener('touchstart', onTouchStart);
+    layout.removeEventListener('touchmove', onTouchMove);
+    layout.removeEventListener('touchend', onTouchEnd);
+  }
+}, [pan]);
+
+
   return (
     <div style={{ height: '100vh', background: '#000', color: '#fff', position: 'relative', overflow: 'hidden' }}>
       
@@ -341,9 +424,9 @@ else {
     backgroundSize: 'contain',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
-    transform: `scale(${zoom})`,
+    transform: `scale(${zoom}) translate(${pan.x / zoom}px, ${pan.y / zoom}px)`,
     transformOrigin: 'center center',
-    transition: 'transform 0.3s ease'
+    transition: panRef.current.isDragging ? 'none' : 'transform 0.3s ease'
   }}
 >
   <span className='stage'>Stage</span>
@@ -498,7 +581,7 @@ translateX = '-60%'
         }}
       >
         <button
-          onClick={() => setZoom(z => Math.max(0.5, +(z - 0.1).toFixed(2)))}
+            onClick={() => setZoom(z => Math.max(minZoom, +(z - 0.1).toFixed(2)))}
           style={{
             background: '#f5c400',
             border: 'none',
@@ -513,7 +596,7 @@ translateX = '-60%'
         </button>
         <span style={{ color: '#fff', fontSize: '14px' }}>Zoom</span>
         <button
-          onClick={() => setZoom(z => Math.min(2, +(z + 0.1).toFixed(2)))}
+          onClick={() => setZoom(z => Math.min(maxZoom, +(z + 0.1).toFixed(2)))}
           style={{
             background: '#f5c400',
             border: 'none',
