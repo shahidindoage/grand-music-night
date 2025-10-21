@@ -578,16 +578,15 @@ translateX = '-60%'
           borderRadius: 6,
           display: 'flex',
           alignItems: 'center',
-          gap: '15px'
+          gap: '10px'
         }}
-        className='zoom-contronls'
       >
         <button
             onClick={() => setZoom(z => Math.max(minZoom, +(z - 0.1).toFixed(2)))}
           style={{
             background: '#f5c400',
             border: 'none',
-            padding: '14px 20px',
+            padding: '6px 12px',
             borderRadius: '50%',
             cursor: 'pointer',
             fontSize: '16px',
@@ -596,13 +595,13 @@ translateX = '-60%'
         >
           −
         </button>
-        <span style={{ color: '#fff', fontSize: '28px' }} className='zoom-text'>Zoom</span>
+        <span style={{ color: '#fff', fontSize: '20px' }} className='zoom-text'>Zoom</span>
         <button
           onClick={() => setZoom(z => Math.min(maxZoom, +(z + 0.1).toFixed(2)))}
           style={{
             background: '#f5c400',
             border: 'none',
-            padding: '14px 20px',
+            padding: '6px 12px',
             borderRadius: '50%',
             cursor: 'pointer',
             fontSize: '16px',

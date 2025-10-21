@@ -54,13 +54,9 @@ body {
   font-size: 6px !important;
  }
   .stage1{
-  font-size: 6px !important;
-  right: 5% !important;
+  font-size: 13px !important;
+  right: 15% !important;
  }
- .zoom-contronls{
-  bottom: 10% !important;
- }
- 
  }
 
  .table-no{
