@@ -87,6 +87,7 @@ body {
     position: absolute;
     top: 27.5%;
     left: 48.5%;
+    text-transform: uppercase;
  }
 
   /* .stage1{
@@ -98,8 +99,9 @@ body {
     right: -13.5%;
  } */
  .stage2{
-  
+  text-transform: uppercase;
     font-family: MyCustomFont;
+    font-size: 17px;
    animation: blinkColor 2s ease-in-out infinite;
  }
  @keyframes blinkColor {
@@ -113,5 +115,5 @@ body {
 
  .zoom-text{
   font-family: MyCustomFont;
-
+text-transform: uppercase;
  }
