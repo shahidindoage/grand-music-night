@@ -53,10 +53,23 @@ body {
  .stage{
   font-size: 6px !important;
  }
-  .stage1{
-  font-size: 13px !important;
-  right: 15% !important;
+  /* .stage1{
+  display: none !important;
+ } */
+ .stage2{
+  /* display: block !important; */
+    font-family: MyCustomFont;
+   width: max-content;
+   
+   
  }
+  .zoom{
+  flex-direction: column !important;
+  gap: 10px !important;
+  left: 50% !important;
+  /* width: 100% !important; */
+ }
+
  }
 
  .table-no{
@@ -76,15 +89,27 @@ body {
     left: 48.5%;
  }
 
-  .stage1{
-  color: #ccc2b8;
+  /* .stage1{
     z-index: 1;
     font-family: MyCustomFont;
-    font-size: 15px;
+   font-size: 20px;
     position: absolute;
     bottom: 18% !important;
-    right: -2.5%;
+    right: -13.5%;
+ } */
+ .stage2{
+  
+    font-family: MyCustomFont;
+   animation: blinkColor 2s ease-in-out infinite;
  }
+ @keyframes blinkColor {
+  0%, 100% {
+    color: #ccc2b8; /* bright yellow */
+  }
+  50% {
+    color: #fff; /* white */
+  }
+}
 
  .zoom-text{
   font-family: MyCustomFont;

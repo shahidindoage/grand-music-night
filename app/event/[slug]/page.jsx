@@ -430,7 +430,7 @@ useEffect(() => {
   }}
 >
   <span className='stage'>Stage</span>
-  <span className='stage1'>Note:&nbsp;&nbsp;Please use the zoom buttons for better visualization.</span>
+  {/* <span className='stage1'>Note:&nbsp;&nbsp;Please use the zoom buttons for better visualization.</span> */}
   <div ref={layoutRef} style={{ position: 'absolute', inset: 0 }} />
 
   {/* Table numbers */}
@@ -567,22 +567,27 @@ translateX = '-60%'
       )}
 
       {/* ✅ Zoom Controls */}
-      <div
+      <div className='zoom-wrap'>
+<div
         style={{
           position: 'fixed',
           bottom: 20,
-          left: '50%',
+          left: '97%',
           transform: 'translateX(-50%)',
           background: 'rgba(0,0,0,0.7)',
           padding: '10px 15px',
           borderRadius: 6,
           display: 'flex',
           alignItems: 'center',
-          gap: '10px'
+          gap: '100px',
+          width:'100%'
         }}
+        className='zoom'
       >
-        <button
-            onClick={() => setZoom(z => Math.max(minZoom, +(z - 0.1).toFixed(2)))}
+        <div style={{display:'flex',gap:10,alignItems:'center'}}>
+<button
+            onClick={() => setZoom(z => Math.max(minZoom, +(z - (isMobile ? 0.6 : 0.23)).toFixed(2)))}
+
           style={{
             background: '#f5c400',
             border: 'none',
@@ -597,7 +602,8 @@ translateX = '-60%'
         </button>
         <span style={{ color: '#fff', fontSize: '20px' }} className='zoom-text'>Zoom</span>
         <button
-          onClick={() => setZoom(z => Math.min(maxZoom, +(z + 0.1).toFixed(2)))}
+          onClick={() => setZoom(z => Math.min(maxZoom, +(z + (isMobile ? 0.6 : 0.23)).toFixed(2)))}
+
           style={{
             background: '#f5c400',
             border: 'none',
@@ -610,7 +616,12 @@ translateX = '-60%'
         >
           +
         </button>
+        </div>
+        
+        <span className='stage2'>Note:&nbsp;&nbsp;Please use the zoom buttons for better visualization.</span>
       </div>
+      </div>
+      
     </div>
   )
 }
