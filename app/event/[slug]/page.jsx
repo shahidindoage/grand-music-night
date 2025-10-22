@@ -405,7 +405,7 @@ useEffect(() => {
 
 
   return (
-    <div style={{ height: '100vh', background: '#000', color: '#fff', position: 'relative', overflow: 'hidden' }}>
+    <div style={{ height: '100vh', background: '#0f0f0f', color: '#fff', position: 'relative', overflow: 'hidden' }}>
       
         {/* <span className='table-no' style={{top:'12%',left:'36%', transform: 'translate(-50%, -50%)'}}>211</span>
         <span className='table-no' style={{top:'19%',left:'36%',}}>210</span>
@@ -420,7 +420,7 @@ useEffect(() => {
     maxWidth: 1000,
     aspectRatio: '1/1',
     position: 'relative',
-    backgroundImage: `url('https://grand-music-night-2025.netlify.app/bg-3.PNG')`,
+    backgroundImage: `url('https://moonlit-dolphin-3aa2c4.netlify.app/bg-3.PNG')`,
     backgroundSize: 'contain',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
@@ -574,7 +574,7 @@ translateX = '-60%'
           bottom: 20,
           left: '97%',
           transform: 'translateX(-50%)',
-          background: 'rgba(0,0,0,0.7)',
+          background: '#0f0f0f',
           padding: '10px 15px',
           borderRadius: 6,
           display: 'flex',
