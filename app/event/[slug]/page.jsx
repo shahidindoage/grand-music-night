@@ -423,7 +423,7 @@ useEffect(() => {
     backgroundImage: `url('https://moonlit-dolphin-3aa2c4.netlify.app/bg-3.PNG')`,
     backgroundSize: 'contain',
     backgroundRepeat: 'no-repeat',
-    marginTop:'9%',
+    marginTop:'-9%',
     backgroundPosition: 'center',
     transform: `scale(${zoom}) translate(${pan.x / zoom}px, ${pan.y / zoom}px)`,
     transformOrigin: 'center center',
