@@ -423,6 +423,7 @@ useEffect(() => {
     backgroundImage: `url('https://moonlit-dolphin-3aa2c4.netlify.app/bg-3.PNG')`,
     backgroundSize: 'contain',
     backgroundRepeat: 'no-repeat',
+    marginTop:'9%',
     backgroundPosition: 'center',
     transform: `scale(${zoom}) translate(${pan.x / zoom}px, ${pan.y / zoom}px)`,
     transformOrigin: 'center center',
@@ -571,7 +572,7 @@ translateX = '-60%'
 <div
         style={{
           position: 'fixed',
-          bottom: 20,
+          bottom: 44,
           left: '97%',
           transform: 'translateX(-50%)',
           background: '#0f0f0f',
